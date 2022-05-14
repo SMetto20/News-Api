@@ -5,6 +5,7 @@ import Dao.DepartmentDao;
 import Models.Department;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
+import org.sql2o.Sql2oException;
 
 import java.util.List;
 
@@ -21,12 +22,15 @@ public class Sql2oDepartmentDao implements DepartmentDao {
             con.createQuery(sql)
                     .bind(department1)
                     .executeUpdate();
+        } catch (Sql2oException e) {
+            System.out.println(e.getMessage());
+
         }
     }
 
     public static List<Department> getAll() {
         String sql = "SELECT * FROM departments";
-        try(Connection con = DB.sql2o.open()) {
+        try (Connection con = DB.sql2o.open()) {
             return con.createQuery(sql).executeAndFetch(Department.class);
         }
 
@@ -37,6 +41,20 @@ public class Sql2oDepartmentDao implements DepartmentDao {
             con.createQuery(sql)
                     .bind(department1)
                     .executeUpdate();
+        } catch (Sql2oException e){
+            System.out.println(e.getMessage());
+
+        }
+    }
+    public void deleteByName(String name){
+        try (Connection con = DB.sql2o.open()) {
+            String sql = "DELETE  FROM departments WHERE name=:name";
+            con.createQuery(sql)
+                    .addParameter("name", name)
+                    .executeUpdate();
+        } catch (Sql2oException e){
+            System.out.println(e.getMessage());
+
         }
     }
 }
