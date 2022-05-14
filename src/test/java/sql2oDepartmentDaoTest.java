@@ -51,7 +51,6 @@ public class sql2oDepartmentDaoTest {
         DepartmentDao.add(department);
         department.setName("weather");
         DepartmentDao.update(department );
-//        Department updatedDepartment = sql2oMentorDao.findById(mentor.getId());
         Assert.assertEquals("weather", department.getName());
     }
 }
