@@ -19,9 +19,6 @@ public class Sql2oDepartmentDao implements DepartmentDao {
         try (Connection con = DB.sql2o.open()) {
             String sql = "INSERT INTO departments (name,description,news_id, users_id) values(:name,:description,:news_id, :users_id)";
             con.createQuery(sql)
-//                    .addParameter("name", this.name)
-//                    .addParameter("age", this.age)
-//                    .addParameter("health", this.health)
                     .bind(department1)
                     .executeUpdate();
         }
@@ -33,5 +30,13 @@ public class Sql2oDepartmentDao implements DepartmentDao {
             return con.createQuery(sql).executeAndFetch(Department.class);
         }
 
+    }
+    public void update (Department department1) {
+        try (Connection con = DB.sql2o.open()) {
+            String sql = "UPDATE departments SET name = :name WHERE id=:id";
+            con.createQuery(sql)
+                    .bind(department1)
+                    .executeUpdate();
+        }
     }
 }

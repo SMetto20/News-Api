@@ -21,15 +21,7 @@ public class sql2oDepartmentDaoTest {
     private Sql2oNewsDao newsDao = new Sql2oNewsDao(sql2o);
     private Sql2oDepartmentDao  DepartmentDao = new Sql2oDepartmentDao(sql2o);
     private  Sql2oUsersDao UsersDao = new Sql2oUsersDao(sql2o);
-//    @Before
-//    public void setup() {
-//        String connect = "jdbc:postgresql://localhost:5432/news";
-//        Sql2o sql2o = new Sql2o(connect, "postgres", "123");
-//        sql2oDepartmentDao = new Sql2oDepartmentDao();
-//        sql2oNewsDao = new Sql2oNewsDao();
-//        sql2oUsersDao = new Sql2oUsersDao();
-//        conn = sql2o.open();
-//    }
+
     @Test
     public void  add_addsDepartment_true(){
         Department department = new Department("fishing", "wildlife",1, 2);
@@ -52,5 +44,14 @@ public class sql2oDepartmentDaoTest {
         DepartmentDao.add(department2);
         int expected = 20;
         Assert.assertEquals(expected,DepartmentDao.getAll().size());
+    }
+    @Test
+    public void update_updatesDepartmentDetails_true(){
+        Department department = new Department("fashion","fashion news",20,3);
+        DepartmentDao.add(department);
+        department.setName("weather");
+        DepartmentDao.update(department );
+//        Department updatedDepartment = sql2oMentorDao.findById(mentor.getId());
+        Assert.assertEquals("weather", department.getName());
     }
 }
