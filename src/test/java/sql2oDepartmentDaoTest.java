@@ -1,6 +1,7 @@
 import Models.Department;
 import Models.News;
 import Models.Users;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 //import org.sql2o.Sql2o;
@@ -42,5 +43,14 @@ public class sql2oDepartmentDaoTest {
         DepartmentDao.add(department1);
         assertEquals("sports",department1.getName());
 
+    }
+    @Test
+    public void  geAll_returnsAllDepartments_true(){
+        Department department= new Department("fishing","fishing news",2,4);
+        Department department2 = new Department("Business","Business news",3 ,8);
+        DepartmentDao.add(department);
+        DepartmentDao.add(department2);
+        int expected = 20;
+        Assert.assertEquals(expected,DepartmentDao.getAll().size());
     }
 }
