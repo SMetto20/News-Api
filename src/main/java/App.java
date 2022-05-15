@@ -1,9 +1,19 @@
 import DB.DB;
+import Models.Department;
+import com.google.gson.Gson;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
+import response.ResponseArray;
+import response.ResponseObject;
 import sql2o.Sql2oDepartmentDao;
 import sql2o.Sql2oNewsDao;
 import sql2o.Sql2oUsersDao;
+
+import java.util.Collections;
+import java.util.List;
+
+import static spark.Spark.get;
+import static spark.Spark.post;
 
 public class App {
     public static void main(String[] args) {
@@ -13,5 +23,27 @@ public class App {
         Sql2oDepartmentDao DepartmentDao = new Sql2oDepartmentDao(sql2o);
         Sql2oUsersDao UsersDao = new Sql2oUsersDao(sql2o);
         Connection conn = DB.sql2o.open();
+
+        post("/add_department",(request, response) -> {
+            Gson gson = new Gson();
+            System.out.println(request.body());
+            Department department = gson.fromJson(request.body(),Department.class);
+            DepartmentDao.add(department);
+            System.out.println(department.getName());
+            ResponseObject responseObject = new ResponseObject(201,"Success! department Added");
+            responseObject.setData(new Object());
+            response.status(201);
+
+            return gson.toJson(responseObject);
+        });
+        get("/get_all_mentor",(request, response) -> {
+            Gson gson = new Gson();
+            List<Department> list = DepartmentDao.getAll();
+            ResponseArray responseArray =  new ResponseArray(200,"success");
+            responseArray.setData(Collections.singletonList(list));
+            System.out.println(list.size());
+            return gson.toJson(responseArray);
+        });
+
     }
 }
