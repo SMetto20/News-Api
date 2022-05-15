@@ -26,7 +26,8 @@ public class Sql2oNewsDao implements NewsDao {
                     .executeUpdate();
         }
     }
-    public static List<News> getAll() {
+
+    public List<News> getAll() {
         String sql = "SELECT * FROM News";
         try (Connection con = DB.sql2o.open()) {
             return con.createQuery(sql).executeAndFetch(News.class);
