@@ -55,7 +55,7 @@ public class sql2oDepartmentDaoTest {
     }
     @Test
     public void delete_deletesDepartmentDetails_true(){
-        Department department = new Department("European", "African news", 20,25);
+        Department department = new Department("European", "European news", 20,25);
         DepartmentDao.add(department);
         DepartmentDao.deleteByName(department.getName());
        Assert.assertEquals(27, DepartmentDao.getAll().size());
