@@ -1,6 +1,9 @@
 import DB.DB;
 import Models.Department;
+import Models.News;
+import Models.Users;
 import com.google.gson.Gson;
+import org.h2.engine.User;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import response.ResponseArray;
@@ -30,13 +33,14 @@ public class App {
             Department department = gson.fromJson(request.body(),Department.class);
             DepartmentDao.add(department);
             System.out.println(department.getName());
-            ResponseObject responseObject = new ResponseObject(201,"Success! department Added");
+            ResponseObject responseObject = new ResponseObject(200,"Success! department Added");
             responseObject.setData(new Object());
-            response.status(201);
+            response.status(200);
+            response.type("/add_department");
 
             return gson.toJson(responseObject);
         });
-        get("/get_all_mentor",(request, response) -> {
+        get("/get_all_department",(request, response) -> {
             Gson gson = new Gson();
             List<Department> list = DepartmentDao.getAll();
             ResponseArray responseArray =  new ResponseArray(200,"success");
@@ -44,6 +48,47 @@ public class App {
             System.out.println(list.size());
             return gson.toJson(responseArray);
         });
+        post("/add_news",(request, response) -> {
+            Gson gson = new Gson();
+            System.out.println(request.body());
+            News news= gson.fromJson(request.body(),News.class);
+            newsDao.add(news);
+            System.out.println(news.getGeneral());
+            ResponseObject responseObject = new ResponseObject(200,"Success! department Added");
+            responseObject.setData(new Object());
+            response.status(200);
+            response.type("/add_news");
 
+            return gson.toJson(responseObject);
+        });
+        get("/get_all_news",(request, response) -> {
+            Gson gson = new Gson();
+            List<News> list = newsDao.getAll();
+            ResponseArray responseArray =  new ResponseArray(200,"success");
+            responseArray.setData(Collections.singletonList(list));
+            System.out.println(list.size());
+            return gson.toJson(responseArray);
+        });
+        post("/add_users",(request, response) -> {
+            Gson gson = new Gson();
+            System.out.println(request.body());
+            Users users= gson.fromJson(request.body(), Users.class);
+            UsersDao.add(users);
+            System.out.println(users.getName());
+            ResponseObject responseObject = new ResponseObject(200,"Success! department Added");
+            responseObject.setData(new Object());
+            response.status(200);
+            response.type("/add_users");
+
+            return gson.toJson(responseObject);
+        });
+        get("/get_all_users",(request, response) -> {
+            Gson gson = new Gson();
+            List<Users> list = UsersDao.getAll();
+            ResponseArray responseArray =  new ResponseArray(200,"success");
+            responseArray.setData(Collections.singletonList(list));
+            System.out.println(list.size());
+            return gson.toJson(responseArray);
+        });
     }
 }
